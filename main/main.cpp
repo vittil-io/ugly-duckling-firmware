@@ -7,6 +7,9 @@
 #include <Log.hpp>
 #include <MacAddress.hpp>
 
+// Vittil: crash reports from ESP32 devices in the field (https://vittil.io).
+#include <vittil.h>
+
 #ifdef CONFIG_IDF_TARGET_ESP32S3
 
 #include <devices/UglyDucklingMk5.hpp>
@@ -159,6 +162,9 @@ static void startDeviceBasedOnHardware() {
 }
 
 extern "C" void app_main() {
+    // Start Vittil early so a crash in startup is captured; it never blocks.
+    vittil_start();
+
 #ifdef UD_DEBUG
     // Reset ANSI colors
     printf("\033[0m");
